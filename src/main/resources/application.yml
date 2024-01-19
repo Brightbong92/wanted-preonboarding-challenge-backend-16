@@ -11,7 +11,7 @@ spring:
   # JPA ??
   jpa:
     hibernate:
-      ddl-auto: none        # DB ??? ?? (none, create, create-drop, update, validate)
+      ddl-auto: create        # DB ??? ?? (none, create, create-drop, update, validate)
     properties:
       hibernate:
         auto_quote_keyword: false
