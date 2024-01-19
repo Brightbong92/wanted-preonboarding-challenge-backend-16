@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.sql.Date;
@@ -32,7 +33,7 @@ public class Performance {
     private int type;
     @Column(nullable = false)
     private Date start_date;
-    @Column(nullable = false, name = "is_reserve")
+    @Column(nullable = false, name = "is_reserve", columnDefinition = "varchar(255) default 'disable'")
     private String isReserve;
 
 }
