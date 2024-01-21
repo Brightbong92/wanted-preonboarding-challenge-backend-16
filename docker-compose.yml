@@ -5,8 +5,8 @@ services:
     ports:
       - 13306:3306
     volumes:
-      - /Volumes/T7/Study/wanted-backend-dev/mysql_docker/data:/var/lib/mysql:rw
-      - /Volumes/T7/Study/backend-preonboarding/src/main/resources/initdb:/docker-entrypoint-initdb.d
+      - ../wanted-backend-dev/mysql_docker/data:/var/lib/mysql:rw
+      - ../backend-preonboarding/src/main/resources/initdb:/docker-entrypoint-initdb.d
 #      - /Volumes/T7/Study/wanted-backend-dev/mysql_docker/data:/var/lib/mysql:rw
 #      - /Volumes/T7/Study/backend-preonboarding/src/main/resources/initdb:/docker-entrypoint-initdb.d
     command:
