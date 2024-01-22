@@ -2,8 +2,9 @@ server:
   port: 8016
 
 spring:
-  profiles:
-    default: dev
+  config:
+    activate:
+      on-profile: prod
   datasource:
     url: jdbc:mysql://localhost:13306/wanted
     username: wanted
@@ -13,7 +14,7 @@ spring:
   # JPA ??
   jpa:
     hibernate:
-      ddl-auto: update        # DB ??? ?? (none, create, create-drop, update, validate)
+      ddl-auto: none        # DB ??? ?? (none, create, create-drop, update, validate)
     properties:
       hibernate:
         auto_quote_keyword: false
