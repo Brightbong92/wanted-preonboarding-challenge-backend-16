@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -22,20 +24,27 @@ public class TicketSeller {
     private long totalAmount = 0L;
 
     public List<PerformanceInfo> getAllPerformanceInfoList() {
-        return performanceRepository.findByIsReserve("enable")
-            .stream()
-            .map(PerformanceInfo::of)
-            .toList();
+        return performanceRepository.findByIsReserve("enable").stream().map(PerformanceInfo::of).toList();
     }
 
     public PerformanceInfo getPerformanceInfoDetail(String name) {
         return PerformanceInfo.of(performanceRepository.findByName(name));
     }
 
+    public ReserveInfo getReserveInfo(ReserveInfo reserveInfo) {
+        Performance info = performanceRepository.findById(reserveInfo.getPerformanceId()).orElseThrow(EntityNotFoundException::new);
+        return ReserveInfo.builder()
+                .performanceId(info.getId())
+                .performanceName(info.getName())
+                .reservationName(reserveInfo.getReservationName())
+                .reservationPhoneNumber(reserveInfo.getReservationPhoneNumber())
+                // TODO: status
+                .build();
+    }
+
     public boolean reserve(ReserveInfo reserveInfo) {
         log.info("reserveInfo ID => {}", reserveInfo.getPerformanceId());
-        Performance info = performanceRepository.findById(reserveInfo.getPerformanceId())
-            .orElseThrow(EntityNotFoundException::new);
+        Performance info = performanceRepository.findById(reserveInfo.getPerformanceId()).orElseThrow(EntityNotFoundException::new);
         String enableReserve = info.getIsReserve();
         if (enableReserve.equalsIgnoreCase("enable")) {
             // 1. 결제
@@ -43,11 +52,13 @@ public class TicketSeller {
             reserveInfo.setAmount(reserveInfo.getAmount() - price);
             // 2. 예매 진행
             reservationRepository.save(Reservation.of(reserveInfo));
-            return true;
 
+            return true;
         } else {
             return false;
         }
+
+
     }
 
 }
