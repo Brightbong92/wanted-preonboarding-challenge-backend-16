@@ -16,22 +16,24 @@ public class PerformanceInfo {
     private String performanceType;
     private Date startDate;
     private String isReserve;
+    private int round;
 
     public static PerformanceInfo of(Performance entity) {
         return PerformanceInfo.builder()
-            .performanceId(entity.getId())
-            .performanceName(entity.getName())
-            .performanceType(convertCodeToName(entity.getType()))
-            .startDate(entity.getStart_date())
-            .isReserve(entity.getIsReserve())
-            .build();
+                .performanceId(entity.getId())
+                .performanceName(entity.getName())
+                .performanceType(convertCodeToName(entity.getType()))
+                .startDate(entity.getStart_date())
+                .isReserve(entity.getIsReserve())
+                .round(entity.getRound())
+                .build();
     }
 
-    private static String convertCodeToName(int code){
+    private static String convertCodeToName(int code) {
         return Arrays.stream(PerformanceType.values()).filter(value -> value.getCategory() == code)
-            .findFirst()
-            .orElse(PerformanceType.NONE)
-            .name();
+                .findFirst()
+                .orElse(PerformanceType.NONE)
+                .name();
     }
 
 }

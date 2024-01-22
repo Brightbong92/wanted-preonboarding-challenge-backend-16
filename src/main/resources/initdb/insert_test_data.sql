@@ -6,3 +6,9 @@ INSERT INTO performance_seat_info VALUES
 ,(DEFAULT, (SELECT id FROM performance limit 1), 1, 1, 'A', 2, 'enable', DEFAULT, DEFAULT)
 ,(DEFAULT, (SELECT id FROM performance limit 1), 1, 1, 'A', 3, 'enable', DEFAULT, DEFAULT)
 ,(DEFAULT, (SELECT id FROM performance limit 1), 1, 1, 'A', 4, 'enable', DEFAULT, DEFAULT);
+
+
+INSERT INTO `performance` (id, name, price, round, type, start_date, is_reserve)
+VALUES
+    (UUID_TO_BIN(UUID()), '레베카', 100000, 1, 0, '2024-01-20 19:30:00', 'disable'),
+    (UUID_TO_BIN(UUID()), '검정치마콘서트', 150000, 3, 0, '2024-02-20 19:30:00', 'enable');
