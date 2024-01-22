@@ -24,30 +24,33 @@ public class ReserveController {
         return ResponseEntity
                 .ok()
                 .body(ResponseHandler.builder()
-                .statusCode(HttpStatus.OK)
-                .message("Success")
-                .build()
+                        .statusCode(HttpStatus.OK)
+                        .message("Success")
+                        .build()
                 );
     }
 
     @PostMapping("/")
-    public boolean reservation(@RequestBody ReserveInfo reserveInfo) {
+    public ResponseEntity<ResponseHandler<ReserveInfo>> reservation(@RequestBody ReserveInfo reserveInfo) {
         System.out.println("reservation" + reserveInfo.toString());
+        boolean isSuccess = ticketSeller.reserve(reserveInfo);
 
-
-
-        return true;
-
-//        return ticketSeller.reserve(ReserveInfo.builder()
-//                .performanceId(UUID.fromString("4438a3e6-b01c-11ee-9426-0242ac180002"))
-//                .reservationName("유진호")
-//                .reservationPhoneNumber("010-1234-1234")
-//                .reservationStatus("reserve")
-//                .amount(200000)
-//                .round(1)
-//                .line('A')
-//                .seat(1)
-//                .build()
-//        );
+        if (isSuccess) {
+            return ResponseEntity
+                    .ok()
+                    .body(
+                        ResponseHandler.<ReserveInfo>builder().message("Success")
+                                .statusCode(HttpStatus.OK)
+                                .data(ticketSeller.getReserveInfo(reserveInfo))
+                                .build());
+        } else {
+            return ResponseEntity
+                    .ok()
+                    .body(
+                        ResponseHandler.<ReserveInfo>builder().message("")
+                                .statusCode(HttpStatus.EXPECTATION_FAILED)
+                                .data(null)
+                                .build());
+        }
     }
 }
